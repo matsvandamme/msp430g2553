@@ -22,6 +22,13 @@ typedef enum
     PULLDOWN
 } gpio_pullup_pulldown_e;
 
+typedef enum 
+{
+    IOFUNCTION,
+    PRIMARY_PERIPHERAL,
+    SECONDARY_PERIPHERAL
+} gpio_function_select_e;
+
 // Define an enum to hold the pin numbers
 typedef enum
 {
@@ -45,6 +52,11 @@ typedef enum
     GPIO17,
     GPIO18,
     GPIO19
-} gpio_pins_e;
+} gpio_pin_e;
+
+void gpio_init(void);
+void gpio_set_direction(gpio_pin_e pin, gpio_direction_e direction);
+void gpio_set_resistor(gpio_pin_e pin, gpio_resistor_e resistor_state);
+void gpio_set_function(gpio_pin_e pin, gpio_function_select_e function);
 
 #endif // GPIO_H
