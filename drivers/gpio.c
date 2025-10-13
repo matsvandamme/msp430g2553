@@ -13,17 +13,33 @@ static volatile uint8_t *const port_in_regs[IO_PORT_CNT] = { &P1IN, &P2IN };
 static volatile uint8_t *const port_sel1_regs[IO_PORT_CNT] = { &P1SEL, &P2SEL };
 static volatile uint8_t *const port_sel2_regs[IO_PORT_CNT] = { &P1SEL2, &P2SEL2 };
 
-static uint8_t io_port(io_generic_e io)
+static uint8_t gpio_port(io_generic_e gpio)
 {
-    return (io & IO_PORT_MASK) >> IO_PORT_OFFSET;
+    return (gpio & IO_PORT_MASK) >> IO_PORT_OFFSET;
 }
 
-static inline uint8_t io_pin_idx(io_generic_e io)
+static inline uint8_t gpio_pin_idx(io_generic_e gpio)
 {
-    return io & IO_PIN_MASK;
+    return gpio & IO_PIN_MASK;
 }
 
-static uint8_t io_pin_bit(io_generic_e io)
+static uint8_t gpio_pin_bit(io_generic_e gpio)
 {
-    return 1 << io_pin_idx(io);
+    return 1 << gpio_pin_idx(gpio);
 }
+
+void gpio_set_direction(io_generic_e gpio, io_dir_e direction)
+{
+    uint8_t port = gpio_port(gpio);
+    uint8_t pin = gpio_pin_bit(gpio);
+
+    switch(direction)
+    {
+        case IO_DIR_INPUT:
+            *port_dir_regs[port] &= ~pin;
+            break;
+        case IO_DIR_OUTPUT:
+            *port_dir_regs[port] |= pin;
+            break;
+    };
+};
