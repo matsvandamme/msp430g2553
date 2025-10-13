@@ -47,20 +47,20 @@ typedef enum
     IO_TRIGGER_FALLING
 } gpio_trigger_e;
 
-struct io_config
+typedef struct 
 {
     gpio_select_e select;
     gpio_resistor_e resistor;
     gpio_dir_e dir;
     gpio_out_e out;
-};
+} gpio_config_t;
 
-void io_init(void);
-void io_configure(gpio_generic_e gpio, const struct io_config *config);
-void io_set_select(gpio_generic_e gpio, gpio_select_e select);
-void io_set_direction(gpio_generic_e gpio, gpio_dir_e direction);
-void io_set_resistor(gpio_generic_e gpio, gpio_resistor_e resistor);
-void io_set_out(gpio_generic_e gpio, gpio_out_e out);
-gpio_in_e io_get_input(gpio_generic_e gpio);
+void gpio_init(void);
+void gpio_configure(gpio_generic_e gpio, const gpio_config_t *config);
+void gpio_set_select(gpio_generic_e gpio, gpio_select_e select);
+void gpio_set_direction(gpio_generic_e gpio, gpio_dir_e direction);
+void gpio_set_resistor(gpio_generic_e gpio, gpio_resistor_e resistor);
+void gpio_set_out(gpio_generic_e gpio, gpio_out_e out);
+gpio_in_e gpio_get_input(gpio_generic_e gpio);
 
 #endif // GPIO_H
