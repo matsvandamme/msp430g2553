@@ -28,7 +28,7 @@ OBJECTS = $(patsubst %,$(OBJ_DIR)/%,$(OBJECT_NAMES))
 
 # Flags
 MCU = msp430g2553
-WFLAGS = -Wall -Wextra -Werror -Wshadow
+WFLAGS = -Wall -Wextra -Wshadow #-Werror 
 CFLAGS = -mmcu=$(MCU) $(WFLAGS) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS))
 

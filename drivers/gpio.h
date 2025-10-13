@@ -1,6 +1,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 
+#include <msp430.h>
 #include <stdint.h>
 
 typedef enum {
