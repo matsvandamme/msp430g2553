@@ -20,7 +20,8 @@ DEBUG = LD_LIBRARY_PATH=$(DEBUG_DRIVERS_DIR) $(DEBUG_BIN_DIR)/mspdebug
 TARGET = $(BIN_DIR)/blink
 
 SOURCES = main.c \
-		  drivers/gpio.c
+		  drivers/gpio.c \
+		  drivers/led.c
 
 OBJECT_NAMES = $(SOURCES:.c=.o)
 OBJECTS = $(patsubst %,$(OBJ_DIR)/%,$(OBJECT_NAMES))
