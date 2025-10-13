@@ -1,5 +1,4 @@
 #include "gpio.h"
-#include "defines.h"
 
 // The following macros are used to decode the gpio_e enum value
 // to extract the port and pin information. The enum values are structured
