@@ -3,64 +3,63 @@
 
 #include <stdint.h>
 
-// Define an enum to hold the direction value for the pin
+typedef enum {
+    IO_10, IO_11, IO_12, IO_13, IO_14, IO_15, IO_16, IO_17,
+    IO_20, IO_21, IO_22, IO_23, IO_24, IO_25, IO_26, IO_27,
+} io_generic_e;
+
 typedef enum
 {
-    INPUT,
-    OUTPUT
-} gpio_direction_e;
+    IO_SELECT_GPIO,
+    IO_SELECT_ALT1,
+    IO_SELECT_ALT2,
+    IO_SELECT_ALT3,
+} io_select_e;
 
-// Define an enum to hold the state of the pin resistor
 typedef enum
 {
-    RESISTOR_ENABLED,
-    RESISTOR_DISABLED
-} gpio_resistor_e;
+    IO_DIR_INPUT,
+    IO_DIR_OUTPUT,
+} io_dir_e;
 
-// Define an enum to hold the state of the pullup/pulldown
 typedef enum
 {
-    PULLUP,
-    PULLDOWN
-} gpio_pullup_pulldown_e;
+    IO_RESISTOR_DISABLED,
+    IO_RESISTOR_ENABLED,
+} io_resistor_e;
 
-typedef enum 
-{
-    IOFUNCTION,
-    PRIMARY_PERIPHERAL,
-    SECONDARY_PERIPHERAL
-} gpio_function_e;
-
-// Define an enum to hold the GPIO pin numbers (msp430g2553 has a total of 16 gpio pins in PDIP package)
 typedef enum
 {
-    GPIO0 = 0x00, // 0 in decimal
-    GPIO1 = 0x01, // 1 in decimal
-    GPIO2 = 0x02, // 2 in decimal
-    GPIO3 = 0x03, // 3 in decimal
-    GPIO4 = 0x04, // 4 in decimal
-    GPIO5 = 0x05, // 5 in decimal
-    GPIO6 = 0x06, // 6 in decimal
-    GPIO7 = 0x07, // 7 in decimal
-    GPIO8 = 0x08, // 8 in decimal
-    GPIO9 = 0x09, // 9 in decimal
-    GPIO10 = 0x0A, // 10 in decimal
-    GPIO11 = 0x0B, // 11 in decimal
-    GPIO12 = 0x0C, // 12 in decimal
-    GPIO13 = 0x0D, // 13 in decimal
-    GPIO14 = 0x0E, // 14 in decimal
-    GPIO15 = 0x0F, // 15 in decimal
-} gpio_pin_e;
+    IO_OUT_LOW, // (pull-down)
+    IO_OUT_HIGH, // (pull-up)
+} io_out_e;
 
-typedef struct gpio
+typedef enum
 {
-    gpio_direction_e direction;
-    gpio_function_e function;
-    gpio_pullup_pulldown_e pull;
-    gpio_resistor_e resistor;
-} gpio_configuration_t;
+    IO_IN_LOW,
+    IO_IN_HIGH,
+} io_in_e;
 
-uint8_t gpio_init(void);
-uint8_t gpio_configure(gpio_pin_e pin, gpio_configuration_t config);
+typedef enum
+{
+    IO_TRIGGER_RISING,
+    IO_TRIGGER_FALLING
+} io_trigger_e;
+
+struct io_config
+{
+    io_select_e select;
+    io_resistor_e resistor;
+    io_dir_e dir;
+    io_out_e out;
+};
+
+void io_init(void);
+void io_configure(io_generic_e io, const struct io_config *config);
+void io_set_select(io_generic_e io, io_select_e select);
+void io_set_direction(io_generic_e io, io_dir_e direction);
+void io_set_resistor(io_generic_e io, io_resistor_e resistor);
+void io_set_out(io_generic_e io, io_out_e out);
+io_in_e io_get_input(io_generic_e io);
 
 #endif // GPIO_H
