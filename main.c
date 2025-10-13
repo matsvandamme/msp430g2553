@@ -12,10 +12,10 @@ int main(void)
         .select = IO_SELECT_GPIO,
     };
 
-    gpio_configure(IO_10, &cfg);
-    gpio_configure(IO_16, &cfg);
-    gpio_set_out(IO_16, IO_OUT_HIGH);
-    gpio_set_out(IO_10, IO_OUT_HIGH);
+    gpio_configure(IO_LED_GREEN, &cfg);
+    gpio_configure(IO_LED_RED, &cfg);
+    gpio_set_out(IO_LED_GREEN, IO_OUT_HIGH);
+    gpio_set_out(IO_LED_RED, IO_OUT_HIGH);
 
     WDTCTL = WDTPW + WDTHOLD; // Stop watchdog timer
 
