@@ -38,10 +38,22 @@ typedef enum {
  */
 typedef enum
 {
-    IO_UART_RX = IO_11,     ///< UART Receive Pin
-    IO_UART_TX = IO_12,     ///< UART Transmit Pin
-    IO_LED_RED = IO_10,     ///< Red LED
-    IO_LED_GREEN = IO_16,   ///< Green LED
+    IO_UART_RX = IO_11,             ///< UART Receive Pin
+    IO_UART_TX = IO_12,             ///< UART Transmit Pin
+    IO_LED_RED = IO_10,             ///< Red LED
+    IO_LED_GREEN = IO_16,           ///< Green LED
+    IO_UNUSED_1 = IO_13,            ///< Unused pin
+    IO_UNUSED_2 = IO_14,            ///< Unused pin
+    IO_UNUSED_3 = IO_15,            ///< Unused pin
+    IO_UNUSED_4 = IO_17,            ///< Unused pin
+    IO_UNUSED_5 = IO_20,            ///< Unused pin
+    IO_UNUSED_6 = IO_21,            ///< Unused pin
+    IO_UNUSED_7 = IO_22,            ///< Unused pin
+    IO_UNUSED_8 = IO_23,            ///< Unused pin
+    IO_UNUSED_9 = IO_24,            ///< Unused pin
+    IO_UNUSED_10 = IO_25,           ///< Unused pin
+    IO_UNUSED_11 = IO_26,           ///< Unused pin
+    IO_UNUSED_12 = IO_27,           ///< Unused pin
 } gpio_e;
 
 /**

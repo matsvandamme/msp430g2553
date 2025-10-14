@@ -7,6 +7,7 @@
  * hardware registers.
  */
 #include "gpio.h"
+#include "../common/defines.h"
 
 // MACROS to decode the port and pin information from a gpio_e enum value.
 // The enum is structured such that:
@@ -14,9 +15,15 @@
 // - Bits 0-2 represent the pin index (0-7).
 
 #define IO_PORT_CNT (2u) ///< Number of GPIO ports handled by this driver (P1, P2).
+#define IO_PIN_CNT_PER_PORT (8u)
 #define IO_PORT_OFFSET (3u) ///< Bit offset for the port number within the enum value.
 #define IO_PORT_MASK (0x3u << IO_PORT_OFFSET) ///< Mask to isolate the port number bits.
 #define IO_PIN_MASK (0x7u) ///< Mask to isolate the pin number bits.
+
+#define UNUSED_CONFIG                                                                              \
+    {                                                                                              \
+        IO_SELECT_GPIO, IO_RESISTOR_ENABLED, IO_DIR_OUTPUT, IO_OUT_LOW                             \
+    }
 
 // These arrays store pointers to the memory-mapped hardware registers for each port.
 // - 'volatile' is used to ensure the compiler does not optimize away register accesses,
@@ -38,6 +45,27 @@ static volatile uint8_t *const port_in_regs[IO_PORT_CNT] = { &P1IN, &P2IN };
 static volatile uint8_t *const port_sel1_regs[IO_PORT_CNT] = { &P1SEL, &P2SEL };
 /// @brief Array of pointers to the Port Select 2 registers (P1SEL2, P2SEL2).
 static volatile uint8_t *const port_sel2_regs[IO_PORT_CNT] = { &P1SEL2, &P2SEL2 };
+
+// This array holds the initial configuration for all IO pins.
+static const gpio_config_t io_initial_configs[IO_PORT_CNT * IO_PIN_CNT_PER_PORT] = {
+    // Output
+    [IO_UART_RX] = { IO_SELECT_GPIO, IO_RESISTOR_DISABLED, IO_DIR_OUTPUT, IO_OUT_LOW },
+    [IO_UART_TX] = { IO_SELECT_GPIO, IO_RESISTOR_DISABLED, IO_DIR_OUTPUT, IO_OUT_LOW },
+    [IO_LED_GREEN] = { IO_SELECT_GPIO, IO_RESISTOR_DISABLED, IO_DIR_OUTPUT, IO_OUT_LOW },
+    [IO_LED_RED] = { IO_SELECT_GPIO, IO_RESISTOR_DISABLED, IO_DIR_OUTPUT, IO_OUT_LOW },
+    [IO_UNUSED_1] = UNUSED_CONFIG,
+    [IO_UNUSED_2] = UNUSED_CONFIG,
+    [IO_UNUSED_3] = UNUSED_CONFIG,
+    [IO_UNUSED_4] = UNUSED_CONFIG,
+    [IO_UNUSED_5] = UNUSED_CONFIG,
+    [IO_UNUSED_6] = UNUSED_CONFIG,
+    [IO_UNUSED_7] = UNUSED_CONFIG,
+    [IO_UNUSED_8] = UNUSED_CONFIG,
+    [IO_UNUSED_9] = UNUSED_CONFIG,
+    [IO_UNUSED_10] = UNUSED_CONFIG,
+    [IO_UNUSED_11] = UNUSED_CONFIG,
+    [IO_UNUSED_12] = UNUSED_CONFIG,
+};
 
 /**
  * @brief Extracts the port index from a gpio_e enum value.
@@ -71,6 +99,13 @@ static inline uint8_t gpio_pin_idx(gpio_e gpio)
 static uint8_t gpio_pin_bit(gpio_e gpio)
 {
     return 1 << gpio_pin_idx(gpio);
+}
+
+void gpio_init(void)
+{
+    for (gpio_e io = (gpio_e)IO_10; io < ARRAY_SIZE(io_initial_configs); io++) {
+        gpio_configure(io, &io_initial_configs[io]);
+    }
 }
 
 /**
