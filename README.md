@@ -8,7 +8,7 @@
 
 \<br /\>
 \<div align="center"\>
-\<a href="[https://github.com/matsvandamme/msp430g2553](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553)"\>
+\<a href="[https://github.com/matsvandamme/msp430g2553](https://github.com/matsvandamme/msp430g2553)"\>
 \<img src="images/logo.png" alt="Logo" width="80" height="80"\>
 \</a\>
 
@@ -17,10 +17,10 @@
 \<p align="center"\>
 A simple project for the Texas Instruments MSP430G2553 microcontroller.
 \<br /\>
-\<a href="[https://github.com/matsvandamme/msp430g2553](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553)"\>\<strong\>Explore the docs »\</strong\>\</a\>
+\<a href="[https://github.com/matsvandamme/msp430g2553](https://github.com/matsvandamme/msp430g2553)"\>\<strong\>Explore the docs »\</strong\>\</a\>
 \<br /\>
 \<br /\>
-\<a href="[https://github.com/matsvandamme/msp430g2553](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553)"\>View Demo\</a\>
+\<a href="[https://github.com/matsvandamme/msp430g2553](https://github.com/matsvandamme/msp430g2553)"\>View Demo\</a\>
 \&middot;
 \<a href="[https://github.com/matsvandamme/msp430g2553/issues/new?labels=bug\&template=bug-report---.md](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553/issues/new%3Flabels%3Dbug%26template%3Dbug-report---.md)"\>Report Bug\</a\>
 \&middot;
@@ -103,7 +103,7 @@ After building the project, a `main.elf` file will be created in the `build` dir
   - [ ] Implement serial communication (UART)
   - [ ] Add support for other peripherals
 
-See the [open issues](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/matsvandamme/msp430g2553/issues) for a full list of proposed features (and known issues).
 
 \<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
@@ -120,13 +120,13 @@ Don't forget to give the project a star\! Thanks again\!
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
-\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
-
 ### Top contributors:
 
-\<a href="[https://github.com/matsvandamme/msp430g2553/graphs/contributors](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553/graphs/contributors)"\>
-\<img src="[https://contrib.rocks/image?repo=matsvandamme/msp430g2553](https://www.google.com/search?q=https://contrib.rocks/image%3Frepo%3Dmatsvandamme/msp430g2553)" alt="contrib.rocks image" /\>
+\<a href="[https://github.com/matsvandamme/msp430g2553/graphs/contributors](https://github.com/matsvandamme/msp430g2553/graphs/contributors)"\>
+\<img src="[https://contrib.rocks/image?repo=matsvandamme/msp430g2553](https://contrib.rocks/image?repo=matsvandamme/msp430g2553)" alt="contrib.rocks image" /\>
 \</a\>
+
+\<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
 ## License
 
@@ -138,7 +138,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Mats Van Damme - [@matsvandamme](https://www.google.com/search?q=https://twitter.com/matsvandamme) - matsvandamme@example.com
 
-Project Link: [https://github.com/matsvandamme/msp430g2553](https://www.google.com/search?q=https://github.com/matsvandamme/msp430g2553)
+Project Link: [https://github.com/matsvandamme/msp430g2553](https://github.com/matsvandamme/msp430g2553)
 
 \<p align="right"\>(\<a href="\#readme-top"\>back to top\</a\>)\</p\>
 
