@@ -19,16 +19,14 @@ DEBUG = LD_LIBRARY_PATH=$(DEBUG_DRIVERS_DIR) $(DEBUG_BIN_DIR)/mspdebug
 # Files
 TARGET = $(BIN_DIR)/blink
 
-SOURCES = main.c \
-		  drivers/gpio.c \
-		  drivers/led.c
+SOURCES := $(wildcard *.c drivers/*.c)
 
 OBJECT_NAMES = $(SOURCES:.c=.o)
 OBJECTS = $(patsubst %,$(OBJ_DIR)/%,$(OBJECT_NAMES))
 
 # Flags
 MCU = msp430g2553
-WFLAGS = -Wall -Wextra -Wshadow #-Werror 
+WFLAGS = -Wall -Wextra -Wshadow -Werror 
 CFLAGS = -mmcu=$(MCU) $(WFLAGS) $(addprefix -I,$(INCLUDE_DIRS)) -Og -g
 LDFLAGS = -mmcu=$(MCU) $(addprefix -L,$(LIB_DIRS))
 
