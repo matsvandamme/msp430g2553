@@ -162,6 +162,7 @@ void gpio_set_out(gpio_e gpio, gpio_out_e out)
         case IO_OUT_HIGH:
             // Set the corresponding bit in the output register.
             *port_out_regs[port] |= pin;
+            break;
     }
 }
 
