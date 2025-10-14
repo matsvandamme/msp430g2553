@@ -1,18 +1,16 @@
-```markdown
 # MSP430G2553 Project
 
----
+-----
 
 ## 🚀 About This Project
 
 This repository contains a simple project for the Texas Instruments MSP430G2553 microcontroller. It's set up with a clean structure, including custom drivers and a Makefile for easy building and flashing. This project is a great starting point for anyone looking to get their hands dirty with embedded C programming on the MSP430 platform.
 
----
+-----
 
 ## 📂 Repository Structure
 
 ```
-
 .
 ├── Makefile
 ├── datasheets
@@ -23,17 +21,16 @@ This repository contains a simple project for the Texas Instruments MSP430G2553 
 │   ├── led.c
 │   └── led.h
 └── main.c
+```
 
-````
-
----
+-----
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
 
-* [MSP430-GCC Toolchain](http://www.ti.com/tool/msp430-gcc-opensource)
-* [MSPDebug](http://mspdebug.sourceforge.net/)
+  * [MSP430-GCC Toolchain](http://www.ti.com/tool/msp430-gcc-opensource)
+  * [MSPDebug](http://mspdebug.sourceforge.net/)
 
 ### Building the Project
 
@@ -41,7 +38,7 @@ To build the project, simply run the `make` command in the root directory:
 
 ```sh
 make
-````
+```
 
 This will compile the source files and create the output file in the `build/bin` directory.
 
@@ -77,6 +74,3 @@ This directory contains custom drivers for the MSP430G2553.
   * **`led.h` / `led.c`**: A simple LED driver.
 
 -----
-
-```
-```
