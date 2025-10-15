@@ -25,22 +25,8 @@
  * For example, IO_10 represents Port 1, Pin 0. IO_27 represents Port 2, Pin 7.
  */
 typedef enum {
-    IO_10,
-    IO_11,
-    IO_12,
-    IO_13,
-    IO_14,
-    IO_15,
-    IO_16,
-    IO_17,
-    IO_20,
-    IO_21,
-    IO_22,
-    IO_23,
-    IO_24,
-    IO_25,
-    IO_26,
-    IO_27,
+    IO_10, IO_11, IO_12, IO_13, IO_14, IO_15, IO_16, IO_17,
+    IO_20, IO_21, IO_22, IO_23, IO_24, IO_25, IO_26, IO_27,
 } gpio_generic_e;
 
 /**
@@ -50,23 +36,24 @@ typedef enum {
  * This enumeration assigns meaningful names to GPIO pins based on their
  * function in the application (e.g., controlling an LED or for UART communication).
  */
-typedef enum {
-    IO_UART_RX = IO_11, ///< UART Receive Pin
-    IO_UART_TX = IO_12, ///< UART Transmit Pin
-    IO_LED_RED = IO_10, ///< Red LED
-    IO_LED_GREEN = IO_16, ///< Green LED
-    IO_UNUSED_1 = IO_13, ///< Unused pin
-    IO_UNUSED_2 = IO_14, ///< Unused pin
-    IO_UNUSED_3 = IO_15, ///< Unused pin
-    IO_UNUSED_4 = IO_17, ///< Unused pin
-    IO_UNUSED_5 = IO_20, ///< Unused pin
-    IO_UNUSED_6 = IO_21, ///< Unused pin
-    IO_UNUSED_7 = IO_22, ///< Unused pin
-    IO_UNUSED_8 = IO_23, ///< Unused pin
-    IO_UNUSED_9 = IO_24, ///< Unused pin
-    IO_UNUSED_10 = IO_25, ///< Unused pin
-    IO_UNUSED_11 = IO_26, ///< Unused pin
-    IO_UNUSED_12 = IO_27, ///< Unused pin
+typedef enum
+{
+    IO_UART_RX = IO_11,             ///< UART Receive Pin
+    IO_UART_TX = IO_12,             ///< UART Transmit Pin
+    IO_LED_RED = IO_10,             ///< Red LED
+    IO_LED_GREEN = IO_16,           ///< Green LED
+    IO_UNUSED_1 = IO_13,            ///< Unused pin
+    IO_UNUSED_2 = IO_14,            ///< Unused pin
+    IO_UNUSED_3 = IO_15,            ///< Unused pin
+    IO_UNUSED_4 = IO_17,            ///< Unused pin
+    IO_UNUSED_5 = IO_20,            ///< Unused pin
+    IO_UNUSED_6 = IO_21,            ///< Unused pin
+    IO_UNUSED_7 = IO_22,            ///< Unused pin
+    IO_UNUSED_8 = IO_23,            ///< Unused pin
+    IO_UNUSED_9 = IO_24,            ///< Unused pin
+    IO_UNUSED_10 = IO_25,           ///< Unused pin
+    IO_UNUSED_11 = IO_26,           ///< Unused pin
+    IO_UNUSED_12 = IO_27,           ///< Unused pin
 } gpio_e;
 
 /**
@@ -78,7 +65,8 @@ typedef enum {
  * device-specific datasheet for details on which alternate functions are
  * available on each pin.
  */
-typedef enum {
+typedef enum
+{
     IO_SELECT_GPIO, ///< Pin is configured for general-purpose I/O.
     IO_SELECT_ALT1, ///< Pin is configured for primary peripheral module function.
     IO_SELECT_ALT2, ///< Pin is configured for secondary peripheral module function.
@@ -89,8 +77,9 @@ typedef enum {
  * @enum gpio_dir_e
  * @brief Enumeration for setting the pin's data direction.
  */
-typedef enum {
-    IO_DIR_INPUT, ///< The pin is configured as a digital input.
+typedef enum
+{
+    IO_DIR_INPUT,  ///< The pin is configured as a digital input.
     IO_DIR_OUTPUT, ///< The pin is configured as a digital output.
 } gpio_dir_e;
 
@@ -98,9 +87,10 @@ typedef enum {
  * @enum gpio_resistor_e
  * @brief Enumeration for enabling/disabling the internal pull-up/pull-down resistor.
  */
-typedef enum {
+typedef enum
+{
     IO_RESISTOR_DISABLED, ///< Internal pull-up/pull-down resistor is disabled.
-    IO_RESISTOR_ENABLED, ///< Internal pull-up/pull-down resistor is enabled.
+    IO_RESISTOR_ENABLED,  ///< Internal pull-up/pull-down resistor is enabled.
 } gpio_resistor_e;
 
 /**
@@ -111,8 +101,9 @@ typedef enum {
  * When a pin is configured as an input with the internal resistor enabled, this
  * selects between a pull-up (IO_OUT_HIGH) and a pull-down (IO_OUT_LOW) resistor.
  */
-typedef enum {
-    IO_OUT_LOW, ///< Logic low. Selects pull-down resistor if pin is an input.
+typedef enum
+{
+    IO_OUT_LOW,  ///< Logic low. Selects pull-down resistor if pin is an input.
     IO_OUT_HIGH, ///< Logic high. Selects pull-up resistor if pin is an input.
 } gpio_out_e;
 
@@ -120,8 +111,9 @@ typedef enum {
  * @enum gpio_in_e
  * @brief Enumeration for representing the logic level of an input pin.
  */
-typedef enum {
-    IO_IN_LOW, ///< The pin is at a logic low level.
+typedef enum
+{
+    IO_IN_LOW,  ///< The pin is at a logic low level.
     IO_IN_HIGH, ///< The pin is at a logic high level.
 } gpio_in_e;
 
@@ -130,8 +122,9 @@ typedef enum {
  * @brief Enumeration for configuring interrupt edge triggers.
  * @note This functionality is declared but not implemented in the driver.
  */
-typedef enum {
-    IO_TRIGGER_RISING, ///< Interrupt on a rising edge (low to high).
+typedef enum
+{
+    IO_TRIGGER_RISING,  ///< Interrupt on a rising edge (low to high).
     IO_TRIGGER_FALLING, ///< Interrupt on a falling edge (high to low).
 } gpio_trigger_e;
 
@@ -144,10 +137,10 @@ typedef enum {
  */
 typedef struct
 {
-    gpio_select_e select; ///< Pin function selection (GPIO or alternate).
+    gpio_select_e select;     ///< Pin function selection (GPIO or alternate).
     gpio_resistor_e resistor; ///< Internal resistor state (enabled/disabled).
-    gpio_dir_e dir; ///< Data direction (input/output).
-    gpio_out_e out; ///< Output level or pull-up/pull-down selection.
+    gpio_dir_e dir;           ///< Data direction (input/output).
+    gpio_out_e out;           ///< Output level or pull-up/pull-down selection.
 } gpio_config_t;
 
 /**

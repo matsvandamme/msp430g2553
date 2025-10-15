@@ -118,15 +118,16 @@ void gpio_set_direction(gpio_e gpio, gpio_dir_e direction)
     uint8_t port = gpio_port(gpio);
     uint8_t pin = gpio_pin_bit(gpio);
 
-    switch (direction) {
-    case IO_DIR_INPUT:
-        // Clear the corresponding bit in the Port Direction register (PxDIR) to set as input.
-        *port_dir_regs[port] &= ~pin;
-        break;
-    case IO_DIR_OUTPUT:
-        // Set the corresponding bit in the Port Direction register (PxDIR) to set as output.
-        *port_dir_regs[port] |= pin;
-        break;
+    switch(direction)
+    {
+        case IO_DIR_INPUT:
+            // Clear the corresponding bit in the Port Direction register (PxDIR) to set as input.
+            *port_dir_regs[port] &= ~pin;
+            break;
+        case IO_DIR_OUTPUT:
+            // Set the corresponding bit in the Port Direction register (PxDIR) to set as output.
+            *port_dir_regs[port] |= pin;
+            break;
     }
 }
 
@@ -140,15 +141,16 @@ void gpio_set_resistor(gpio_e gpio, gpio_resistor_e resistor)
     uint8_t port = gpio_port(gpio);
     uint8_t pin = gpio_pin_bit(gpio);
 
-    switch (resistor) {
-    case IO_RESISTOR_DISABLED:
-        // Clear the corresponding bit in the Port Resistor Enable register (PxREN).
-        *port_ren_regs[port] &= ~pin;
-        break;
-    case IO_RESISTOR_ENABLED:
-        // Set the corresponding bit in the Port Resistor Enable register (PxREN).
-        *port_ren_regs[port] |= pin;
-        break;
+    switch(resistor)
+    {
+        case IO_RESISTOR_DISABLED:
+            // Clear the corresponding bit in the Port Resistor Enable register (PxREN).
+            *port_ren_regs[port] &= ~pin;
+            break;
+        case IO_RESISTOR_ENABLED:
+            // Set the corresponding bit in the Port Resistor Enable register (PxREN).
+            *port_ren_regs[port] |= pin;
+            break;
     }
 }
 
@@ -166,27 +168,28 @@ void gpio_set_select(gpio_e gpio, gpio_select_e select)
     uint8_t port = gpio_port(gpio);
     uint8_t pin = gpio_pin_bit(gpio);
 
-    switch (select) {
-    case IO_SELECT_GPIO:
-        // PxSEL=0, PxSEL2=0 for General-purpose I/O.
-        *port_sel1_regs[port] &= ~pin;
-        *port_sel2_regs[port] &= ~pin;
-        break;
-    case IO_SELECT_ALT1:
-        // PxSEL=1, PxSEL2=0 for Primary peripheral module function.
-        *port_sel1_regs[port] |= pin;
-        *port_sel2_regs[port] &= ~pin;
-        break;
-    case IO_SELECT_ALT2:
-        // PxSEL=0, PxSEL2=1 for Secondary peripheral module function.
-        *port_sel1_regs[port] &= ~pin;
-        *port_sel2_regs[port] |= pin;
-        break;
-    case IO_SELECT_ALT3:
-        // PxSEL=1, PxSEL2=1 for Tertiary peripheral module function.
-        *port_sel1_regs[port] |= pin;
-        *port_sel2_regs[port] |= pin;
-        break;
+    switch(select)
+    {
+        case IO_SELECT_GPIO:
+            // PxSEL=0, PxSEL2=0 for General-purpose I/O.
+            *port_sel1_regs[port] &= ~pin;
+            *port_sel2_regs[port] &= ~pin;
+            break;
+        case IO_SELECT_ALT1:
+            // PxSEL=1, PxSEL2=0 for Primary peripheral module function.
+            *port_sel1_regs[port] |= pin;
+            *port_sel2_regs[port] &= ~pin;
+            break;
+        case IO_SELECT_ALT2:
+            // PxSEL=0, PxSEL2=1 for Secondary peripheral module function.
+            *port_sel1_regs[port] &= ~pin;
+            *port_sel2_regs[port] |= pin;
+            break;
+        case IO_SELECT_ALT3:
+            // PxSEL=1, PxSEL2=1 for Tertiary peripheral module function.
+            *port_sel1_regs[port] |= pin;
+            *port_sel2_regs[port] |= pin;
+            break;
     }
 }
 
@@ -205,15 +208,16 @@ void gpio_set_out(gpio_e gpio, gpio_out_e out)
     uint8_t port = gpio_port(gpio);
     uint8_t pin = gpio_pin_bit(gpio);
 
-    switch (out) {
-    case IO_OUT_LOW:
-        // Clear the corresponding bit in the Port Output register (PxOUT).
-        *port_out_regs[port] &= ~pin;
-        break;
-    case IO_OUT_HIGH:
-        // Set the corresponding bit in the Port Output register (PxOUT).
-        *port_out_regs[port] |= pin;
-        break;
+    switch(out)
+    {
+        case IO_OUT_LOW:
+            // Clear the corresponding bit in the Port Output register (PxOUT).
+            *port_out_regs[port] &= ~pin;
+            break;
+        case IO_OUT_HIGH:
+            // Set the corresponding bit in the Port Output register (PxOUT).
+            *port_out_regs[port] |= pin;
+            break;
     }
 }
 
