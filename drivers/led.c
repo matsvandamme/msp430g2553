@@ -42,7 +42,6 @@ void led_init(void)
 
     // Enable the timer interrupt
     TA0CCTL0 = CCIE; // Enable interrupt for capture/compare register
-
 }
 
 void led_set_state(led_colour_e colour, led_state_e state)
