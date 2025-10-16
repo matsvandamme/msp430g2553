@@ -8,7 +8,7 @@ volatile uint32_t counter = 0;
 
 void led_init(void)
 {
-    // Declare coxnfig struct that is common to led and green leds
+    // Declare config struct that is common to led and green leds
     gpio_config_t cfg = {
         .dir = IO_DIR_OUTPUT, // Set direction to output
         .out = IO_OUT_LOW, // Set output to low by default
@@ -20,23 +20,13 @@ void led_init(void)
     gpio_configure(IO_LED_GREEN, &cfg);
     gpio_configure(IO_LED_RED, &cfg);
 
-    // --- DCO Clock Configuration ---
-    // Use factory calibration values to set the DCO and SMCLK to 16MHz.
-    // DCOCTL and BCSCTL1 are the registers to set the DCO frequency.
-    DCOCTL = 0;
-    BCSCTL1 = CALBC1_16MHZ;
-    DCOCTL = CALDCO_16MHZ;
-
-    // Set SMCLK to be sourced from the DCO, with a divider of 1.
-    // This is often the default, but it's good practice to be explicit.
-    BCSCTL2 = DIVS_0; // SMCLK Divider of 1
-
-    /* Repurpose the watchdog timer for blinking leds using interrupts
+    /* Timer A0 Configuration
     *  TASSEL_2: Use SMCLK as the clock source (16MHz)
     *  ID_3: Use a clock divider of 8 (16MHz / 8 = 2MHz)
-    *  MC_1: Count up to the value in TA0CCR0// TASSEL_2: Use SMCLK as the clock source (16MHz) */
-    WDTCTL = WDTPW | WDTHOLD; // Stop watchdog timer
-    TA0CTL = TASSEL_2 | ID_3 | MC_1 | TACLR; // SMCLK, /8 divider, up mode, clear timer
+    *  MC_1: Count up to the value in TA0CCR0
+    *  TACLR: Clear the timer to start from 0
+    */
+    TA0CTL = TASSEL_2 | ID_3 | MC_1 | TACLR;
 
     /* Set the capture/compare register for a 1ms period
     *  The timer clock is now 2MHz (16MHz / 8)
@@ -49,10 +39,10 @@ void led_init(void)
     *  TACCR0 = 2000 - 1
     *  TACCR0 = 1999 */
     TA0CCR0 = 1999; // 2MHz / 2000 = 1kHz = 1ms period
-    // Enable global interrupts
+
     // Enable the timer interrupt
     TA0CCTL0 = CCIE; // Enable interrupt for capture/compare register
-    __bis_SR_register(GIE);
+
 }
 
 void led_set_state(led_colour_e colour, led_state_e state)
