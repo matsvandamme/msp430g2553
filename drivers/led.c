@@ -3,8 +3,8 @@
 #include "gpio.h"
 #include "../common/defines.h"
 
-static volatile bool led_state = false;
-static volatile uint32_t counter = 0;
+volatile bool led_state = false;
+volatile uint32_t counter = 0;
 
 void led_init(void)
 {
@@ -52,7 +52,7 @@ void led_init(void)
     // Enable global interrupts
     // Enable the timer interrupt
     TA0CCTL0 = CCIE; // Enable interrupt for capture/compare register
-    __enable_interrupt(); // Enable global interrupts
+    __bis_SR_register(GIE);
 }
 
 void led_set_state(led_colour_e colour, led_state_e state)
