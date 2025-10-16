@@ -5,6 +5,10 @@
 int main(void)
 {
     gpio_init();
+    led_init();
 
-    while (1) { }
+    while (1) 
+    { 
+        led_handle_blinking();
+    }
 }
