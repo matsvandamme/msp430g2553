@@ -1,10 +1,28 @@
 #include <msp430.h>
 #include "led.h"
-#include "gpio.h"
 #include "../common/defines.h"
 
 volatile bool led_state = false;
 volatile uint32_t counter = 0;
+
+static volatile led_t leds[] = {
+    {
+        .io = IO_LED_GREEN,
+        .colour = LED_GREEN,
+        .state = LED_OFF,
+        .on_period_ms = LED_ON_PERIOD_MS,
+        .off_period_ms = LED_OFF_PERIOD_MS,
+        .is_blinking = false,
+    },
+    {
+        .io = IO_LED_RED,
+        .colour = LED_RED,
+        .state = LED_OFF,
+        .on_period_ms = LED_ON_PERIOD_MS,
+        .off_period_ms = LED_OFF_PERIOD_MS,
+        .is_blinking = false,
+    }
+};
 
 void led_init(void)
 {
@@ -16,9 +34,10 @@ void led_init(void)
         .select = IO_SELECT_GPIO, // Select gpio option
     };
 
-    // Call the gpio configure function for both leds
-    gpio_configure(IO_LED_GREEN, &cfg);
-    gpio_configure(IO_LED_RED, &cfg);
+    // Call the gpio configure function for all leds
+    for (uint8_t i = 0; i < ARRAY_SIZE(leds); i++) {
+        gpio_configure(leds[i].io, &cfg);
+    }
 
     /* Timer A0 Configuration
     *  TASSEL_2: Use SMCLK as the clock source (16MHz)
@@ -44,9 +63,9 @@ void led_init(void)
     TA0CCTL0 = CCIE; // Enable interrupt for capture/compare register
 }
 
-void led_set_state(led_colour_e colour, led_state_e state)
+void led_set_state(led_t * led, led_state_e state)
 {
-    switch (colour)
+    switch (led->colour)
     {
     case LED_GREEN:
         // The user wants to change the state of the green led
@@ -54,11 +73,13 @@ void led_set_state(led_colour_e colour, led_state_e state)
         {
         case LED_OFF:
             // Set led to off state
-            gpio_set_out(IO_LED_GREEN, IO_OUT_LOW);
+            gpio_set_out(led->io, IO_OUT_LOW);
+            led->state = LED_OFF;
             break;
         case LED_ON:
             // Set led to on state
-            gpio_set_out(IO_LED_GREEN, IO_OUT_HIGH);
+            gpio_set_out(led->io, IO_OUT_HIGH);
+            led->state = LED_ON;
             break;
         }
         break;
@@ -68,11 +89,13 @@ void led_set_state(led_colour_e colour, led_state_e state)
         {
         case LED_OFF:
             // Set led to off state
-            gpio_set_out(IO_LED_RED, IO_OUT_LOW);
+            gpio_set_out(led->io, IO_OUT_LOW);
+            led->state = LED_OFF;
             break;
         case LED_ON:
             // Set led to on state
-            gpio_set_out(IO_LED_RED, IO_OUT_HIGH);
+            gpio_set_out(led->io, IO_OUT_HIGH);
+            led->state = LED_ON;
             break;
         }
         break;
