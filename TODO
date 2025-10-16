@@ -1,2 +1,3 @@
 - Add mcu_init driver to the code base
 - Make led blinking function work for both red and green leds
+- Improve comments in led driver

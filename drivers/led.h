@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define LED_ON_PERIOD_MS 500
-#define LED_OFF_PERIOD_MS 500
+#define LED_ON_PERIOD_MS 1300
+#define LED_OFF_PERIOD_MS 200
 
 typedef enum {
     LED_ON,

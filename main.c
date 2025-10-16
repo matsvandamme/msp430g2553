@@ -4,6 +4,7 @@
 
 int main(void)
 {
+    //mcu_init();
     gpio_init();
     led_init();
 
