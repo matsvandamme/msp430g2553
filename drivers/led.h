@@ -13,20 +13,17 @@ typedef enum {
     LED_OFF,
 } led_state_e;
 
-typedef enum {
-    LED_GREEN,
-    LED_RED,
-} led_colour_e;
-
 typedef struct
 {
     gpio_e io;      // GPIO pin associated with the LED
-    led_colour_e colour; // Colour of the LED (RED or GREEN)
     led_state_e state;   // Current state of the LED (ON or OFF)
     uint16_t on_period_ms;  // Duration for which the LED stays ON during blinking
     uint16_t off_period_ms; // Duration for which the LED stays OFF during blinking
     bool is_blinking; // Flag indicating if the LED is currently blinking
+    uint32_t last_toggle_time; // Last time the LED was toggled
 } led_t;
+
+extern volatile led_t leds[];
 
 void led_init(void);
 void led_set_state(led_t * led, led_state_e state);

@@ -5,10 +5,9 @@
 volatile bool led_state = false;
 volatile uint32_t counter = 0;
 
-static volatile led_t leds[] = {
+volatile led_t leds[] = {
     {
         .io = IO_LED_GREEN,
-        .colour = LED_GREEN,
         .state = LED_OFF,
         .on_period_ms = LED_ON_PERIOD_MS,
         .off_period_ms = LED_OFF_PERIOD_MS,
@@ -16,7 +15,6 @@ static volatile led_t leds[] = {
     },
     {
         .io = IO_LED_RED,
-        .colour = LED_RED,
         .state = LED_OFF,
         .on_period_ms = LED_ON_PERIOD_MS,
         .off_period_ms = LED_OFF_PERIOD_MS,
@@ -60,73 +58,68 @@ void led_init(void)
     TA0CCR0 = 1999; // 2MHz / 2000 = 1kHz = 1ms period
 
     // Enable the timer interrupt
-    TA0CCTL0 = CCIE; // Enable interrupt for capture/compare register
+    TA0CCTL0 |= CCIE; // Enable interrupt for capture/compare register
 }
 
 void led_set_state(led_t * led, led_state_e state)
 {
-    switch (led->colour)
+    switch (state)
     {
-    case LED_GREEN:
-        // The user wants to change the state of the green led
-        switch (state)
-        {
-        case LED_OFF:
-            // Set led to off state
-            gpio_set_out(led->io, IO_OUT_LOW);
-            led->state = LED_OFF;
-            break;
-        case LED_ON:
-            // Set led to on state
-            gpio_set_out(led->io, IO_OUT_HIGH);
-            led->state = LED_ON;
-            break;
-        }
+    case LED_OFF:
+        // Set led to off state
+        gpio_set_out(led->io, IO_OUT_LOW);
+        led->state = LED_OFF;
         break;
-    case LED_RED:
-        // The user wants to change the state of the red led
-        switch (state)
-        {
-        case LED_OFF:
-            // Set led to off state
-            gpio_set_out(led->io, IO_OUT_LOW);
-            led->state = LED_OFF;
-            break;
-        case LED_ON:
-            // Set led to on state
-            gpio_set_out(led->io, IO_OUT_HIGH);
-            led->state = LED_ON;
-            break;
-        }
+    case LED_ON:
+        // Set led to on state
+        gpio_set_out(led->io, IO_OUT_HIGH);
+        led->state = LED_ON;
         break;
     }
+}
+
+void led_start_blinking(led_t * led, uint16_t on_period_ms, uint16_t off_period_ms)
+{
+    led->on_period_ms = on_period_ms;
+    led->off_period_ms = off_period_ms;
+    led->is_blinking = true;
+    led->last_toggle_time = counter;
+    // Start with LED ON
+    led_set_state(led, LED_ON);
+}
+
+void led_stop_blinking(led_t * led)
+{
+    led->is_blinking = false;
+    // Ensure LED is turned off when stopping blinking
+    led_set_state(led, LED_OFF);
 }
 
 void led_handle_blinking(void)
 {
-    if (led_state == true) {
-        // LED is currently ON
-        if (counter >= LED_ON_PERIOD_MS) {
-            // Time to turn it OFF
-            led_set_state(LED_GREEN, LED_OFF);
-            led_state = false;
-            counter = 0;
-        }
-    } else {
-        // LED is currently OFF
-        if (counter >= LED_OFF_PERIOD_MS) {
-            // Time to turn it ON
-            led_set_state(LED_GREEN, LED_ON);
-            led_state = true;
-            counter = 0;
+    for (uint8_t i = 0; i < ARRAY_SIZE(leds); i++) {
+        led_t * led = (led_t *)&leds[i];
+        if (led->is_blinking) {
+            uint32_t elapsed_time = counter - led->last_toggle_time;
+            if (led->state == LED_ON && elapsed_time >= led->on_period_ms) {
+                // Turn off the LED
+                led_set_state(led, LED_OFF);
+                led->last_toggle_time = counter;
+            } else if (led->state == LED_OFF && elapsed_time >= led->off_period_ms) {
+                // Turn on the LED
+                led_set_state(led, LED_ON);
+                led->last_toggle_time = counter;
+            }
         }
     }
 }
 
-// Timer A0 interrupt service routine
+// Timer A0 interrupt service routine - MSP-GCC style
 // This ISR is called every 1ms
-INTERRUPT_VECTOR(TIMER0_A0_VECTOR) void WDT_ISR (void) {
-    // Clear the interrupt flag (hardware does this automatically for CCR0 but good practice)
-    TA0CCTL0 &= ~CCIFG;
+__attribute__((interrupt(TIMER0_A0_VECTOR)))
+void Timer0_A0_ISR(void)
+{
+    // For CCR0 the interrupt flag is cleared automatically by the hardware.
+    // Increment the millisecond counter.
     counter++;
 }
