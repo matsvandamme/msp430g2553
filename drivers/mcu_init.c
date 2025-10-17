@@ -25,7 +25,7 @@ inline static void configure_clocks(void)
 
 inline static void enable_interrupts(void)
 {
-    __bis_SR_register(GIE); // Enable global interrupts
+    __enable_interrupt(); // Enable global interrupts
 }
 
 void mcu_init(void)
