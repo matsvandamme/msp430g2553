@@ -46,6 +46,7 @@ static volatile led_t leds[] = {
 
 void led_init(void)
 {
+    // Configure GPIO pins for all LEDs as outputs, initially turned off for power saving
     gpio_config_t cfg = {
         .dir = IO_DIR_OUTPUT,
         .out = IO_OUT_LOW,
