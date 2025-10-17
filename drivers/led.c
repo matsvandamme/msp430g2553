@@ -1,5 +1,6 @@
 #include "led.h"
 #include <msp430.h>
+#include <stddef.h>
 #include "../common/defines.h" // Assuming ARRAY_SIZE and GPIO definitions are here
 
 // --- Private Module Constants ---
