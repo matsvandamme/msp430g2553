@@ -3,22 +3,29 @@
  * @brief LED driver for handling GPIO-based LEDs, including non-blocking blinking.
  *
  * This module initializes and controls LEDs connected to GPIO pins. It relies
- * on a periodic timer interrupt (system tick) to provide non-blocking
- * blinking functionality.
+ * on a periodic timer interrupt to provide non-blocking blinking functionality.
+ * The internal state of an LED is encapsulated and can only be manipulated
+ * through the provided API using an opaque handle.
  */
 #ifndef LED_H
 #define LED_H
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "gpio.h" // Assuming gpio.h defines gpio_e, gpio_config_t, etc.
+#include "gpio.h" // Assuming gpio.h defines gpio_e
 
-// Default blinking periods, can be overridden by led_start_blinking()
+// --- Public Constants ---
+
+/**
+ * @brief Default blinking periods, can be overridden by led_start_blinking().
+ */
 #define LED_ON_PERIOD_MS_DEFAULT 800
 #define LED_OFF_PERIOD_MS_DEFAULT 200
 
+// --- Public Type Definitions ---
+
 /**
- * @brief Defines the possible states of an LED.
+ * @brief Defines the possible physical states of an LED.
  */
 typedef enum {
     LED_OFF, ///< The LED is turned off (GPIO logic low).
@@ -26,58 +33,55 @@ typedef enum {
 } led_state_e;
 
 /**
- * @brief Structure to hold the state and configuration of a single LED.
- * @note The 'io' field is constant and set at compile time.
+ * @brief Opaque handle for an LED object.
+ *
+ * This is a pointer to an incomplete type, hiding the internal structure
+ * of the LED object from the user. Use led_get_handle() to obtain a
+ * valid handle to an LED instance.
  */
-typedef struct
-{
-    const gpio_e io;        ///< GPIO pin associated with the LED (read-only).
-    led_state_e state;      ///< Current physical state of the LED (ON or OFF).
-    uint16_t on_period_ms;  ///< Duration (ms) the LED stays ON during blinking.
-    uint16_t off_period_ms; ///< Duration (ms) the LED stays OFF during blinking.
-    bool is_blinking;       ///< Flag indicating if the LED is currently blinking.
-    uint32_t last_toggle_time; ///< System time (ms) when the LED state was last changed.
-} led_t;
+typedef struct led_s *led_handle_t;
+
+// --- Public Function Prototypes ---
 
 /**
- * @brief Initializes the GPIO pins for all LEDs and configures the system tick timer.
+ * @brief Initializes GPIO pins for all LEDs and the system tick timer.
  * @note This function must be called once before any other LED function.
  */
 void led_init(void);
 
 /**
- * @brief Sets the state of a specific LED (on or off).
- * @param led Pointer to the LED control structure. Must not be NULL.
+ * @brief Sets the state of a specific LED (on or off) and stops any blinking.
+ * @param handle Handle to the LED object. Must not be NULL.
  * @param state The desired state (LED_ON or LED_OFF).
  */
-void led_set_state(led_t *led, led_state_e state);
+void led_set_state(led_handle_t handle, led_state_e state);
 
 /**
  * @brief Starts blinking an LED with specified on/off periods.
- * @param led Pointer to the LED control structure. Must not be NULL.
+ * @param handle Handle to the LED object. Must not be NULL.
  * @param on_period_ms The time in milliseconds the LED should be ON.
  * @param off_period_ms The time in milliseconds the LED should be OFF.
  */
-void led_start_blinking(led_t *led, uint16_t on_period_ms, uint16_t off_period_ms);
+void led_start_blinking(led_handle_t handle, uint16_t on_period_ms, uint16_t off_period_ms);
 
 /**
  * @brief Stops a currently blinking LED and turns it off.
- * @param led Pointer to the LED control structure. Must not be NULL.
+ * @param handle Handle to the LED object. Must not be NULL.
  */
-void led_stop_blinking(led_t *led);
+void led_stop_blinking(led_handle_t handle);
 
 /**
  * @brief Handles the state machine for all blinking LEDs.
  * @note This function must be called periodically in the main application loop
- * to update the state of blinking LEDs.
+ * to update the state of any blinking LEDs.
  */
 void led_handle_blinking(void);
 
 /**
- * @brief Gets a handle to an LED structure by its GPIO pin enum.
+ * @brief Gets a handle to an LED object by its associated GPIO pin enum.
  * @param io The GPIO enum (e.g., IO_LED_GREEN) for the desired LED.
- * @return A pointer to the LED's control structure, or NULL if not found.
+ * @return A handle to the LED's control object, or NULL if not found.
  */
-led_t* led_get_handle(gpio_e io);
+led_handle_t led_get_handle(gpio_e io);
 
 #endif // LED_H
